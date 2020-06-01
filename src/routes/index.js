@@ -4,7 +4,8 @@ router.get('/', async (ctx, next) => {
   await ctx.render('index', {
     title: 'Hello Koa 2!',
     isMe: false,
-    blogList: [{
+    blogList: [
+      {
         id: 1,
         title: 'aaa'
       },
