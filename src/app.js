@@ -12,6 +12,11 @@ const jwtKoa = require('koa-jwt')
 const {
   SECRET
 } = require('./conf/constant')
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+const {
+  REDIS_CONF
+} = require('./conf/db')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -26,11 +31,26 @@ if (isProd) {
 }
 onerror(app, onerrorConf)
 
-app.use(jwtKoa({
-  secret: SECRET
-}).unless({
-  path: [/^\/users\/login/] // 自定义哪些接口忽略 jwt 验证
+// session 配置
+app.keys = ['H*dshgH_1615']
+app.use(session({
+  key: 'weibo.sid', // cookie name 默认是 `koa.sid`
+  prefix: 'weibo:sess:', // redis key 的前缀，默认是 `koa:sess:`
+  cookie: {
+    path: '/',
+    httpOnly: true, // 客户端无法修改
+    maxAge: 60 * 60 * 1000 // 过期时间，单位：ms
+  },
+  store: redisStore({
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
+  })
 }))
+
+// app.use(jwtKoa({
+//   secret: SECRET
+// }).unless({
+//   path: [/^\/users\/login/] // 自定义哪些接口忽略 jwt 验证
+// }))
 
 // middlewares
 app.use(bodyparser({
