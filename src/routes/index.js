@@ -4,7 +4,8 @@ router.get('/', async (ctx, next) => {
   await ctx.render('index', {
     title: 'Hello Koa 2!',
     isMe: true,
-    blogList: [{
+    blogList: [
+      {
         id: 1,
         title: 'aaa'
       },
@@ -34,6 +35,10 @@ router.get('/json', async (ctx, next) => {
     title: 'koa2 json',
     viewNum: session.viewNumber
   }
+
+  // ctx.body = {
+  //   title: 'koa2 json'
+  // }
 })
 
 router.get('/profile/:userName', async (ctx, next) => {
