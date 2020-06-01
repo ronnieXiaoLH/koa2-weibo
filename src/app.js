@@ -8,6 +8,10 @@ const logger = require('koa-logger')
 const {
   isProd
 } = require('./utils/env')
+const jwtKoa = require('koa-jwt')
+const {
+  SECRET
+} = require('./conf/constant')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
@@ -21,6 +25,12 @@ if (isProd) {
   }
 }
 onerror(app, onerrorConf)
+
+app.use(jwtKoa({
+  secret: SECRET
+}).unless({
+  path: [/^\/users\/login/] // 自定义哪些接口忽略 jwt 验证
+}))
 
 // middlewares
 app.use(bodyparser({
