@@ -8,10 +8,10 @@ const logger = require('koa-logger')
 const {
   isProd
 } = require('./utils/env')
-const jwtKoa = require('koa-jwt')
-const {
-  SECRET
-} = require('./conf/constant')
+// const jwtKoa = require('koa-jwt')
+// const {
+//   SECRET
+// } = require('./conf/constant')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const {
@@ -20,6 +20,9 @@ const {
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const userViewRouter = require('./routes/view/user')
+const userApiRouter = require('./routes/api/user')
+
 const errorViewRouter = require('./routes/view/error')
 
 // error handler
@@ -75,6 +78,8 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
 // 404 路由注册到最下面
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
