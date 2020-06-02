@@ -39,7 +39,7 @@ if (isProd) {
 onerror(app, onerrorConf)
 
 // session 配置
-app.keys = [SESSION_SECRET_KEY]
+app.keys = ['H*dshgH_1615']
 app.use(session({
   key: 'weibo.sid', // cookie name 默认是 `koa.sid`
   prefix: 'weibo:sess:', // redis key 的前缀，默认是 `koa:sess:`

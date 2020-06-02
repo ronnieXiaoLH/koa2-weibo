@@ -12,8 +12,8 @@ const {
 
 /**
  * 获取用户信息
- * @param {string} userName 用户名
- * @param {string} password 密码
+ * @param {String} userName 用户名
+ * @param {String} password 密码
  */
 async function getUserInfo(userName, password) {
   // 查询条件
@@ -46,10 +46,10 @@ async function getUserInfo(userName, password) {
 /**
  *
  *
- * @param {string} userName 用户名
- * @param {string} password 密码
- * @param {number} gender 性别 （1 男，2 女，3 保密）
- * @param {string} nickname 昵称
+ * @param {String} userName 用户名
+ * @param {String} password 密码
+ * @param {Number} gender 性别 （1 男，2 女，3 保密）
+ * @param {String} nickname 昵称
  */
 async function createUser({
   userName,
