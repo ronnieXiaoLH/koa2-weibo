@@ -12,15 +12,14 @@ const {
 
 /**
  * 获取用户信息
- * @param {String} userName 用户名
- * @param {String} password 密码
+ * @param {string} userName 用户名
+ * @param {string} password 密码
  */
 async function getUserInfo(userName, password) {
   // 查询条件
   const whereOpt = {
     userName
   }
-  console.log('whereOpt', whereOpt)
   if (password) {
     Object.assign(whereOpt, {
       password
@@ -44,6 +43,30 @@ async function getUserInfo(userName, password) {
   return formatResult
 }
 
+/**
+ *
+ *
+ * @param {string} userName 用户名
+ * @param {string} password 密码
+ * @param {number} gender 性别 （1 男，2 女，3 保密）
+ * @param {string} nickname 昵称
+ */
+async function createUser({
+  userName,
+  password,
+  gender = 3,
+  nickname
+}) {
+  const result = User.create({
+    userName,
+    password,
+    gender,
+    nickname: nickname ? nickname : userName
+  })
+  return result.dataValues
+}
+
 module.exports = {
-  getUserInfo
+  getUserInfo,
+  createUser
 }

@@ -4,24 +4,28 @@
  */
 
 const {
-  getUserInfo
+  getUserInfo,
+  createUser,
+  registerFailInfo
 } = require('../service/user')
 const {
   SuccessModel,
   ErrorModel
 } = require('../model/ResModel')
 const {
-  registerUserNameNotExistInfo
+  registerUserNameNotExistInfo,
+  registerUserNameExistInfo
 } = require('../model/ErrorInfo')
+const {
+  doCrypto
+} = require('../utils/crypto')
 
 /**
  * 判断用户名是否存在
- * @param {String} userName 用户名
+ * @param {string} userName 用户名
  */
 async function isExist(userName) {
-  console.log('userName', userName)
   const userInfo = await getUserInfo(userName)
-  console.log('userInfo', userInfo)
   if (userInfo) {
     // 找到
     return new SuccessModel(userInfo)
@@ -31,6 +35,31 @@ async function isExist(userName) {
   }
 }
 
+async function register({
+  userName,
+  password,
+  gender
+}) {
+  const userInfo = await getUserInfo(userName)
+  if (userInfo) {
+    // 找到
+    return new ErrorModel(registerUserNameExistInfo)
+  }
+  // 注册
+  try {
+    await createUser({
+      userName,
+      password: doCrypto(password),
+      gender
+    })
+    return new SuccessModel()
+  } catch (error) {
+    console.error(error.message, error.stack)
+    return new ErrorModel(registerFailInfo)
+  }
+}
+
 module.exports = {
-  isExist
+  isExist,
+  register
 }

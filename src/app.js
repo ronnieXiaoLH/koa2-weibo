@@ -12,6 +12,10 @@ const {
 // const {
 //   SECRET
 // } = require('./conf/constant')
+
+const {
+  SESSION_SECRET_KEY
+} = require('./conf/secret')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 const {
@@ -35,7 +39,7 @@ if (isProd) {
 onerror(app, onerrorConf)
 
 // session 配置
-app.keys = ['H*dshgH_1615']
+app.keys = [SESSION_SECRET_KEY]
 app.use(session({
   key: 'weibo.sid', // cookie name 默认是 `koa.sid`
   prefix: 'weibo:sess:', // redis key 的前缀，默认是 `koa:sess:`
