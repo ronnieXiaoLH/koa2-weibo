@@ -37,6 +37,7 @@ async function isExist(userName) {
 }
 
 /**
+ * 注册
  * @param {String} userName 用户名
  * @param {String} password 密码
  * @param {String} gender 性别
@@ -65,10 +66,16 @@ async function register({
   }
 }
 
+/**
+ * 登录
+ * @param {Object} ctx koa2 ctx
+ * @param {String} userName
+ * @param {String} password
+ * @returns
+ */
 async function login(ctx, userName, password) {
   // 获取用户信息
   const userInfo = await getUserInfo(userName, doCrypto(password))
-  console.log('userInfo', userInfo)
   if (!userInfo) {
     return new ErrorModel(loginFailInfo)
   }
