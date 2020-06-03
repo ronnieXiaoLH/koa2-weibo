@@ -9,7 +9,7 @@ const {
   isProd
 } = require('./utils/env')
 const path = require('path')
-const static = require('koa-static')
+const koaStatic = require('koa-static')
 // const jwtKoa = require('koa-jwt')
 // const {
 //   SECRET
@@ -68,8 +68,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(static(__dirname + '/public'))
-app.use(static(path.join(__dirname, '..', '/uploadFiles')))
+app.use(koaStatic(__dirname + '/public'))
+app.use(koaStatic(path.join(__dirname, '..', '/uploadFiles')))
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'

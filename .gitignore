@@ -2,6 +2,7 @@
 node_modules
 /dist
 .history
+uploadFiles
 
 # local env files
 .env.local
