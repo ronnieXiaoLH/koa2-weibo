@@ -86,9 +86,9 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
-app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
 
 // 404 路由注册到最下面
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())

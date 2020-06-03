@@ -8,7 +8,8 @@ const {
   isExist,
   register,
   login,
-  deleteCurUser
+  deleteCurUser,
+  changeInfo
 } = require('../../controller/user')
 
 const userValidate = require('../../validator/user')
@@ -58,7 +59,7 @@ router.post('/login', async (ctx, next) => {
 })
 
 // 删除
-router.post('delete', loginCheck, async (ctx, next) => {
+router.post('/delete', loginCheck, async (ctx, next) => {
   if (isTest) {
     // 测试环境下，测试登录后，删除自己的账号
     const {
@@ -66,6 +67,24 @@ router.post('delete', loginCheck, async (ctx, next) => {
     } = ctx.session.userInfo
     ctx.body = await deleteCurUser(userName)
   }
+})
+
+// 修改个人信息
+router.patch('/changeInfo', loginCheck, genValidator(userValidate), async (ctx, next) => {
+  const {
+    nickName,
+    city,
+    picture
+  } = ctx.request.body
+  ctx.body = await changeInfo(ctx, {
+    nickName,
+    city,
+    picture
+  })
+})
+
+router.get('/test', async (ctx, next) => {
+  ctx.body = 'test'
 })
 
 module.exports = router

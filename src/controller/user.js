@@ -7,7 +7,8 @@ const {
   getUserInfo,
   createUser,
   registerFailInfo,
-  deleteUser
+  deleteUser,
+  updateUser
 } = require('../service/user')
 const {
   SuccessModel,
@@ -17,7 +18,8 @@ const {
   registerUserNameNotExistInfo,
   registerUserNameExistInfo,
   loginFailInfo,
-  deleteUserFailInfo
+  deleteUserFailInfo,
+  changeInfoFailInfo
 } = require('../model/ErrorInfo')
 const {
   doCrypto
@@ -102,9 +104,46 @@ async function deleteCurUser(userName) {
   return new ErrorModel(deleteUserFailInfo)
 }
 
+/**
+ * 修改用户信息
+ * @param {Object} ctx ctx
+ * @param {String} nickname 昵称
+ * @param {String} city 城市
+ * @param {String} picture 图片（路径）
+ */
+async function changeInfo(ctx, {
+  nickname,
+  city,
+  picture
+}) {
+  const {
+    userName
+  } = ctx.session.userInfo
+  const result = await updateUser({
+    newNickname: nickname,
+    newCity: city,
+    newPicture: picture
+  }, {
+    userName
+  })
+  if (result) {
+    // 更新成功
+    // 1. 更新 session
+    Object.assign(ctx.session.userInfo, {
+      nickname,
+      city,
+      picture
+    })
+    return new SuccessModel()
+  }
+  // 更新失败
+  return new ErrorModel(changeInfoFailInfo)
+}
+
 module.exports = {
   isExist,
   register,
   login,
-  deleteCurUser
+  deleteCurUser,
+  changeInfo
 }

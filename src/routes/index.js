@@ -8,8 +8,7 @@ router.get('/', loginRedirect, async (ctx, next) => {
   await ctx.render('index', {
     title: 'Hello Koa 2!',
     isMe: true,
-    blogList: [
-      {
+    blogList: [{
         id: 1,
         title: 'aaa'
       },

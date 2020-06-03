@@ -31,7 +31,10 @@ router.get('/login', async ctx => {
 })
 
 router.get('/register', async ctx => {
-  await ctx.render('register', getUserInfo(ctx))
+  // await ctx.render('register', getUserInfo(ctx))
+  await ctx.render('register', {
+    isLogin: false
+  })
 })
 
 router.get('/setting', loginRedirect, async ctx => {
