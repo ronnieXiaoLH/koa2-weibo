@@ -8,6 +8,8 @@ const logger = require('koa-logger')
 const {
   isProd
 } = require('./utils/env')
+const path = require('path')
+const static = require('koa-static')
 // const jwtKoa = require('koa-jwt')
 // const {
 //   SECRET
@@ -26,6 +28,7 @@ const index = require('./routes/index')
 const users = require('./routes/users')
 const userViewRouter = require('./routes/view/user')
 const userApiRouter = require('./routes/api/user')
+const utilsApiRouter = require('./routes/api/utils')
 
 const errorViewRouter = require('./routes/view/error')
 
@@ -65,7 +68,8 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(static(__dirname + '/public'))
+app.use(static(path.join(__dirname, '..', '/uploadFiles')))
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
@@ -84,6 +88,8 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
+app.use(utilsApiRouter.routes(), utilsApiRouter.allowedMethods())
+
 // 404 路由注册到最下面
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
