@@ -8,7 +8,8 @@ const {
   createUser,
   registerFailInfo,
   deleteUser,
-  updateUser
+  updateUser,
+  changePasswordFailInfo
 } = require('../service/user')
 const {
   SuccessModel,
@@ -140,10 +141,30 @@ async function changeInfo(ctx, {
   return new ErrorModel(changeInfoFailInfo)
 }
 
+async function changePassword({
+  userName,
+  password,
+  newPassword
+}) {
+  const result = await updateUser({
+    newPassword: doCrypto(newPassword)
+  }, {
+    userName,
+    password: doCrypto(password)
+  })
+  if (result) {
+    // 修改成功
+    return new SuccessModel()
+  }
+  // 修改失败
+  return new ErrorModel(changePasswordFailInfo)
+}
+
 module.exports = {
   isExist,
   register,
   login,
   deleteCurUser,
-  changeInfo
+  changeInfo,
+  changePassword
 }
