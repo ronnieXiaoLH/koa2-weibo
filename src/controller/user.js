@@ -141,6 +141,12 @@ async function changeInfo(ctx, {
   return new ErrorModel(changeInfoFailInfo)
 }
 
+/**
+ * 修改密码
+ * @param {Sring} userName 用户名
+ * @param {Sring} userName 旧密码
+ * @param {Sring} userName 新密码
+ */
 async function changePassword({
   userName,
   password,
@@ -160,11 +166,21 @@ async function changePassword({
   return new ErrorModel(changePasswordFailInfo)
 }
 
+/**
+ * 退出登录
+ * @param {Object} ctx ctx
+ */
+async function logout(ctx) {
+  delete ctx.session.userInfo
+  return new SuccessModel()
+}
+
 module.exports = {
   isExist,
   register,
   login,
   deleteCurUser,
   changeInfo,
-  changePassword
+  changePassword,
+  logout
 }
