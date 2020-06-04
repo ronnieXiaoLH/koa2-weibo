@@ -2,6 +2,7 @@
  * @description 首页 controller
  * @author 肖龙豪
  */
+const xss = require('xss')
 
 const {
   createBlog
@@ -27,7 +28,7 @@ async function create({
   try {
     const blog = await createBlog({
       userId,
-      content,
+      content: xss(content),
       image
     })
     return new SuccessModel(blog)
