@@ -13,6 +13,10 @@ const {
   getProfileBlogList
 } = require('../../controller/blog-profile')
 
+const {
+  getSquareBlogList
+} = require('../../controller/blog-square')
+
 // 首页
 router.get('/', loginRedirect, async ctx => {
   await ctx.render('index', {})
@@ -25,6 +29,7 @@ router.get('/profile', loginRedirect, async ctx => {
   } = ctx.session.userInfo
   ctx.redirect(`/profile/${userName}`)
 })
+
 router.get('/profile/:userName', loginRedirect, async ctx => {
   // 已登录用户的信息
   const myUserInfo = ctx.session.userInfo
@@ -79,6 +84,28 @@ router.get('/profile/:userName', loginRedirect, async ctx => {
       },
       // amIFollowed,
       // atCount
+    }
+  })
+})
+
+router.get('/square', loginRedirect, async ctx => {
+  // 获取广场第一页数据
+  const result = await getSquareBlogList(0)
+  const {
+    isEmpty,
+    blogList,
+    pageIndex,
+    pageSize,
+    count
+  } = result.data
+  console.log('result.data', result.data)
+  await ctx.render('square', {
+    blogData: {
+      isEmpty,
+      blogList,
+      pageIndex,
+      pageSize,
+      count
     }
   })
 })

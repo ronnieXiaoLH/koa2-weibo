@@ -1,5 +1,5 @@
 /**
- * @description 个人主页 api 路由
+ * @description 广场页 api 路由
  * @author 肖龙豪
  */
 
@@ -10,23 +10,22 @@ const {
 } = require('../../middlewares/loginChecks')
 
 const {
-  getProfileBlogList
-} = require('../../controller/blog-profile')
+  getSquareBlogList
+} = require('../../controller/blog-square')
 
 const {
   getBlogListStr
 } = require('../../utils/blog')
 
-router.prefix('/api/profile')
+router.prefix('/api/square')
 
 // 加载更多
-router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx, next) => {
+router.get('/loadMore/:pageIndex', loginCheck, async (ctx, next) => {
   let {
-    userName,
     pageIndex
   } = ctx.params
   pageIndex = parseInt(pageIndex, 10)
-  const result = await getProfileBlogList(userName, pageIndex)
+  const result = await getSquareBlogList(pageIndex)
 
   // 渲染为 html 字符串
   result.data.blogListTpl = getBlogListStr(result.data.blogList)
