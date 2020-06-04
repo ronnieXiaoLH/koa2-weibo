@@ -30,6 +30,7 @@ const userApiRouter = require('./routes/api/user')
 const utilsApiRouter = require('./routes/api/utils')
 const blogViewRouter = require('./routes/view/blog')
 const homeApiRouter = require('./routes/api/blog-home')
+const profileApiRouter = require('./routes/api/blog-profile')
 
 const errorViewRouter = require('./routes/view/error')
 
@@ -91,6 +92,7 @@ app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userApiRouter.routes(), userApiRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 app.use(homeApiRouter.routes(), homeApiRouter.allowedMethods())
+app.use(profileApiRouter.routes(), profileApiRouter.allowedMethods())
 
 // 404 路由注册到最下面
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
