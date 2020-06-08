@@ -30,6 +30,10 @@ const {
   getHomeBlogList
 } = require('../../controller/blog-home')
 
+const {
+  getAtMeCount
+} = require('../../controller/blog-at')
+
 // 首页
 router.get('/', loginRedirect, async ctx => {
   // 获取个人信息
@@ -51,6 +55,12 @@ router.get('/', loginRedirect, async ctx => {
     followersList
   } = followersResult.data
 
+  // 获取 @ 数量
+  const atCountResult = await getAtMeCount(userId)
+  const {
+    count: atCount
+  } = atCountResult.data
+
   // 获取微博第一页数据
   const result = await getHomeBlogList(userId)
   const {
@@ -71,6 +81,7 @@ router.get('/', loginRedirect, async ctx => {
     },
     userData: {
       userInfo,
+      atCount,
       fansData: {
         count: fansCount,
         list: fansList
@@ -137,11 +148,16 @@ router.get('/profile/:userName', loginRedirect, async ctx => {
 
   // 获取关注人列表
   const followersResult = await getFolowers(curUserInfo.id)
-  console.log('followersResult', followersResult)
   const {
     count: followersCount,
     followersList
   } = followersResult.data
+
+  // 获取 @ 数量
+  const atCountResult = await getAtMeCount(myUserInfo.id)
+  const {
+    count: atCount
+  } = atCountResult.data
 
   await ctx.render('profile', {
     blogData: {
@@ -163,7 +179,7 @@ router.get('/profile/:userName', loginRedirect, async ctx => {
         list: followersList
       },
       amIFollowed,
-      // atCount
+      atCount
     }
   })
 })

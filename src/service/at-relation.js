@@ -20,6 +20,21 @@ async function createAtRelation(blogId, userId) {
   return result.dataValues
 }
 
+/**
+ * 获取 @ 用户的微博数量
+ * @param {Number} userId 用户 id
+ */
+async function getAtRelationsCount(userId) {
+  const result = await AtRelation.findAndCountAll({
+    where: {
+      userId,
+      isRead: false
+    }
+  })
+  return result.count
+}
+
 module.exports = {
-  createAtRelation
+  createAtRelation,
+  getAtRelationsCount
 }
