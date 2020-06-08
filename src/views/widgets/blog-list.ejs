@@ -18,7 +18,7 @@
     <% if (locals.canReply) { %>
     <%# 可以回复 %>
     <a href="#" class="blog-list-reply" data-content="<%= blog.content%>" data-userName="<%= blog.user.userName%>"
-      data-nickName="<%= blog.user.nickName%>">
+      data-nickname="<%= blog.user.nickname%>">
       <i class="fa fa-mail-reply"></i> 回复
     </a>
     <% } %>
@@ -51,10 +51,10 @@
       // 获取内容和用户
       var content = $target.attr('data-content')
       var userName = $target.attr('data-userName')
-      var nickName = $target.attr('data-nickName')
+      var nickname = $target.attr('data-nickname')
 
       // 设置内容并获取焦点
-      $textContent.val(' // @' + nickName + ' - ' + userName + ' : ' + content)
+      $textContent.val(' // @' + nickname + ' - ' + userName + ' : ' + content)
       setCursor($textContent[0], 0, 0)
     })
   })

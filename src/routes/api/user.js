@@ -27,7 +27,9 @@ const {
   loginCheck
 } = require('../../middlewares/loginChecks')
 
-const {getFolowers} = require('../../controller/user-relation')
+const {
+  getFolowers
+} = require('../../controller/user-relation')
 
 router.prefix('/api/user')
 
@@ -110,9 +112,13 @@ router.post('/logout', loginCheck, async (ctx, next) => {
 
 // at 某人，获取关注人列表
 router.get('/getAtList', loginCheck, async (ctx, next) => {
-  const {id:userId} = ctx.session.userInfo
+  const {
+    id: userId
+  } = ctx.session.userInfo
   const result = await getFolowers(userId)
-  const {followersList} = result.data
+  const {
+    followersList
+  } = result.data
   const list = followersList.map(v => {
     return `${v.nickname} - ${v.userName}`
   })
