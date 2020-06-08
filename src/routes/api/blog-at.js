@@ -1,3 +1,8 @@
+/**
+ * @description @ 用户 controller
+ * @author 肖龙豪
+ */
+
 const router = require('koa-router')()
 const {
   loginCheck

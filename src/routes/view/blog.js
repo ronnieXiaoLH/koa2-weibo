@@ -32,7 +32,8 @@ const {
 
 const {
   getAtMeCount,
-  getAtMeBlogList
+  getAtMeBlogList,
+  markAsRead
 } = require('../../controller/blog-at')
 
 // 首页
@@ -238,6 +239,9 @@ router.get('/at-me', loginRedirect, async ctx => {
   })
 
   // 标记为已读
+  if (atCount > 0) {
+    await markAsRead(userId)
+  }
 })
 
 module.exports = router

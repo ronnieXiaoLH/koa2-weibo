@@ -5,7 +5,8 @@
 
 const {
   getAtRelationsCount,
-  getAtUserBlogList
+  getAtUserBlogList,
+  updateAtRelation
 } = require('../service/at-relation')
 
 const {
@@ -51,7 +52,25 @@ async function getAtMeBlogList(userId, pageIndex = 0) {
   })
 }
 
+/**
+ * 标记为已读
+ * @param {Number} userId 用户 id
+ */
+async function markAsRead(userId) {
+  try {
+    await updateAtRelation({
+      newIsRead: true
+    }, {
+      userId,
+      isRead: false
+    })
+  } catch (error) {
+    console.log(error.message, error.stack)
+  }
+}
+
 module.exports = {
   getAtMeCount,
-  getAtMeBlogList
+  getAtMeBlogList,
+  markAsRead
 }
