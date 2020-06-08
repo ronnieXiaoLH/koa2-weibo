@@ -101,7 +101,8 @@ async function getBlogLIstByFollower({
     order: [
       ['id', 'desc']
     ],
-    include: [{
+    include: [
+      {
         model: User,
         attributes: ['userName', 'nickname', 'picture']
       },
