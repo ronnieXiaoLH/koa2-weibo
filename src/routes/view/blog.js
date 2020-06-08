@@ -26,9 +26,61 @@ const {
   getFolowers
 } = require('../../controller/user-relation')
 
+const {
+  getHomeBlogList
+} = require('../../controller/blog-home')
+
 // 首页
 router.get('/', loginRedirect, async ctx => {
-  await ctx.render('index', {})
+  // 获取个人信息
+  const userInfo = ctx.session.userInfo
+  const {
+    id: userId
+  } = userInfo
+  // 获取粉丝列表
+  const fansResult = await getFans(userId)
+  const {
+    count: fansCount,
+    fansList
+  } = fansResult.data
+
+  // 获取关注人列表
+  const followersResult = await getFolowers(userId)
+  const {
+    count: followersCount,
+    followersList
+  } = followersResult.data
+
+  // 获取微博第一页数据
+  const result = await getHomeBlogList(userId)
+  const {
+    isEmpty,
+    pageIndex,
+    pageSize,
+    blogList,
+    count
+  } = result.data
+
+  await ctx.render('index', {
+    blogData: {
+      isEmpty,
+      pageSize,
+      pageIndex,
+      blogList,
+      count
+    },
+    userData: {
+      userInfo,
+      fansData: {
+        count: fansCount,
+        list: fansList
+      },
+      followersData: {
+        count: followersCount,
+        list: followersList
+      }
+    }
+  })
 })
 
 // 个人主页

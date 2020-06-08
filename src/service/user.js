@@ -66,7 +66,7 @@ async function createUser({
   })
   const data = result.dataValues
 
-  // 自己关注自己，方便广场页获取数据
+  // 自己关注自己，方便首页获取数据
   addFollower(data.id, data.id)
 
   return data
