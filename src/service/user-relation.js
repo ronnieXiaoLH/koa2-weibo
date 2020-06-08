@@ -53,7 +53,10 @@ async function getFollowersByUserId(userId) {
       attributes: ['id', 'userName', 'nickname', 'picture']
     }],
     where: {
-      userId
+      userId,
+      followerId: {
+        [Sequelize.Op.ne]: userId
+      }
     }
   })
   // result.count 总数

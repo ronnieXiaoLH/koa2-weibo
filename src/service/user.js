@@ -9,6 +9,9 @@ const {
 const {
   formatUser
 } = require('./_format')
+const {
+  addFollower
+} = require('./user-relation')
 
 /**
  * 获取用户信息
@@ -55,13 +58,18 @@ async function createUser({
   gender = 3,
   nickname
 }) {
-  const result = User.create({
+  const result = await User.create({
     userName,
     password,
     gender,
     nickname: nickname ? nickname : userName
   })
-  return result.dataValues
+  const data = result.dataValues
+
+  // 自己关注自己，方便广场页获取数据
+  addFollower(data.id, data.id)
+
+  return data
 }
 
 /**
